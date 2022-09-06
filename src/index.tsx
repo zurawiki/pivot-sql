@@ -3,17 +3,6 @@ import ReactDOM from 'react-dom/client'
 
 import './index.css'
 
-import {
-  Column,
-  ColumnDef,
-  ColumnOrderState,
-  flexRender,
-  getCoreRowModel,
-  Header,
-  Table,
-  useReactTable,
-} from '@tanstack/react-table'
-import { makeData, Person } from './makeData'
 
 import { DndProvider, useDrag, useDrop } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'

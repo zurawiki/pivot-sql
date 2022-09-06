@@ -15,8 +15,11 @@ import {
 } from '@tanstack/react-table'
 import { makeData, Person } from './makeData'
 
-import { DndProvider, useDrag, useDrop } from 'react-dnd'
-import { HTML5Backend } from 'react-dnd-html5-backend'
+import { useDrag, useDrop } from 'react-dnd'
+
+import { Parser } from 'node-sql-parser'
+const parser = new Parser();
+
 
 const defaultColumns: ColumnDef<Person>[] = [
   {
@@ -63,20 +66,27 @@ const defaultColumns: ColumnDef<Person>[] = [
 const reorderColumn = (
   draggedColumnId: string,
   targetColumnId: string,
-  columnOrder: string[]
-): ColumnOrderState => {
+  columnOrder: string[],
+  astColumns: any[]
+): [ColumnOrderState, any[]] => {
+  const aIndex = columnOrder.indexOf(targetColumnId);
+  const bIndex = columnOrder.indexOf(draggedColumnId);
   columnOrder.splice(
-    columnOrder.indexOf(targetColumnId),
-    0,
-    columnOrder.splice(columnOrder.indexOf(draggedColumnId), 1)[0] as string
+    aIndex, 0, columnOrder.splice(bIndex, 1)[0] as string
   )
-  return [...columnOrder]
+  astColumns.splice(
+    aIndex, 0, astColumns.splice(bIndex, 1)[0] as any
+  )
+
+  return [[...columnOrder], [...astColumns]]
 }
 
 const DraggableColumnHeader: FC<{
   header: Header<Person, unknown>
-  table: Table<Person>
-}> = ({ header, table }) => {
+  table: Table<Person>,
+  astState: any,
+  setAstState: any
+}> = ({ header, table, astState, setAstState }) => {
   const { getState, setColumnOrder } = table
   const { columnOrder } = getState()
   const { column } = header
@@ -84,12 +94,18 @@ const DraggableColumnHeader: FC<{
   const [, dropRef] = useDrop({
     accept: 'column',
     drop: (draggedColumn: Column<Person>) => {
-      const newColumnOrder = reorderColumn(
+      const [newColumnOrder, newColumns] = reorderColumn(
         draggedColumn.id,
         column.id,
-        columnOrder
+        columnOrder,
+        astState.columns,
       )
-      setColumnOrder(newColumnOrder)
+
+      setColumnOrder(newColumnOrder);
+      setAstState({
+        ...astState,
+        columns: newColumns
+      })
     },
   })
 
@@ -125,10 +141,38 @@ export function App() {
     columns.map(column => column.id as string) //must start out with populated columnOrder so we can splice
   )
 
+  const sqlQuery = `
+  SELECT 
+    firstName,
+  lastName,
+  age,
+  visits,
+  status,
+  progress
+  FROM 
+  my_namespace.my_table 
+  WHERE
+  progress < 100
+  GROUP BY status
+  ORDER BY lastName
+  `
+
+  const opt = {
+    database: 'MySQL' // MySQL is the default database
+  }
+
+  const ast = parser.astify(sqlQuery); // mysql sql grammer parsed by default
+  console.log({ ast })
+  const [astState, setAstState] = React.useState(() => ast)
+
+  const sql = parser.sqlify(astState, opt);
+
   const regenerateData = () => setData(() => makeData(20))
 
   const resetOrder = () =>
     setColumnOrder(columns.map(column => column.id as string))
+
+
 
   const table = useReactTable({
     data,
@@ -143,6 +187,9 @@ export function App() {
     debugColumns: true,
   })
 
+
+
+  console.log(ast);
   return (
     <div className="p-2">
       <div className="h-4" />
@@ -164,6 +211,8 @@ export function App() {
                   key={header.id}
                   header={header}
                   table={table}
+                  astState={astState}
+                  setAstState={setAstState}
                 />
               ))}
             </tr>
@@ -198,6 +247,8 @@ export function App() {
         </tfoot>
       </table>
       <pre>{JSON.stringify(table.getState().columnOrder, null, 2)}</pre>
+      <hr />
+      <pre>{sql}</pre>
     </div>
   )
 }

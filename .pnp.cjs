@@ -42,6 +42,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.57"],\
             ["@types/react", "npm:18.0.18"],\
             ["@types/react-dom", "npm:18.0.6"],\
+            ["node-sql-parser", "npm:4.4.0"],\
             ["react", "npm:18.2.0"],\
             ["react-dnd", "virtual:44ea89583f079fb986e9647b85058793964c52c33bcb1b92cf213924ceedccfef89d63c647def44896fb8f09373af732051c5b1322c67a8ce38c9c5cb28c53b0#npm:16.0.1"],\
             ["react-dnd-html5-backend", "npm:16.0.1"],\
@@ -6116,6 +6117,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["big-integer", [\
+        ["npm:1.6.51", {\
+          "packageLocation": "./.yarn/cache/big-integer-npm-1.6.51-1a244d8e1f-3d444173d1.zip/node_modules/big-integer/",\
+          "packageDependencies": [\
+            ["big-integer", "npm:1.6.51"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["big.js", [\
         ["npm:5.2.2", {\
           "packageLocation": "./.yarn/cache/big.js-npm-5.2.2-e147c30820-b89b6e8419.zip/node_modules/big.js/",\
@@ -11841,6 +11851,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["node-sql-parser", [\
+        ["npm:4.4.0", {\
+          "packageLocation": "./.yarn/cache/node-sql-parser-npm-4.4.0-cbc5929f99-c6d51535ce.zip/node_modules/node-sql-parser/",\
+          "packageDependencies": [\
+            ["node-sql-parser", "npm:4.4.0"],\
+            ["big-integer", "npm:1.6.51"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["nopt", [\
         ["npm:5.0.0", {\
           "packageLocation": "./.yarn/cache/nopt-npm-5.0.0-304b40fbfe-d35fdec187.zip/node_modules/nopt/",\
@@ -12389,6 +12409,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.57"],\
             ["@types/react", "npm:18.0.18"],\
             ["@types/react-dom", "npm:18.0.6"],\
+            ["node-sql-parser", "npm:4.4.0"],\
             ["react", "npm:18.2.0"],\
             ["react-dnd", "virtual:44ea89583f079fb986e9647b85058793964c52c33bcb1b92cf213924ceedccfef89d63c647def44896fb8f09373af732051c5b1322c67a8ce38c9c5cb28c53b0#npm:16.0.1"],\
             ["react-dnd-html5-backend", "npm:16.0.1"],\
