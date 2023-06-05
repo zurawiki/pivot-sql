@@ -44,3 +44,8 @@ tfoot {
 tfoot th {
   font-weight: normal;
 }
+
+
+.sqlQuery {
+  white-space: pre-wrap;
+}

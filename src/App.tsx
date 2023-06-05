@@ -248,7 +248,7 @@ export function App() {
       </table>
       <pre>{JSON.stringify(table.getState().columnOrder, null, 2)}</pre>
       <hr />
-      <pre>{sql}</pre>
+      <pre className="sqlQuery">{sql}</pre>
     </div>
   )
 }
