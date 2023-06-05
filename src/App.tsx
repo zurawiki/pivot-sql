@@ -1,5 +1,4 @@
 import React, { FC } from 'react'
-import ReactDOM from 'react-dom/client'
 
 import './index.css'
 
@@ -142,15 +141,15 @@ export function App() {
   )
 
   const sqlQuery = `
-  SELECT 
+  SELECT
     firstName,
   lastName,
   age,
   visits,
   status,
   progress
-  FROM 
-  my_namespace.my_table 
+  FROM
+  my_namespace.my_table
   WHERE
   progress < 100
   GROUP BY status
